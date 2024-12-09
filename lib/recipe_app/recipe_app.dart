@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
 import 'package:lokaverkefni/recipe_app/screens/welcome_screen.dart';
+import 'package:lokaverkefni/theme.dart';
 
 import '../main.dart';
 
@@ -43,14 +44,35 @@ class _RecipeAppState extends State<RecipeApp> {
     }
 
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: kColorScheme,
+        appBarTheme: AppBarTheme(
+          backgroundColor: kColorScheme.onPrimaryContainer,
+          foregroundColor: kColorScheme.primaryContainer,
+        ),
+        cardTheme: CardTheme(
+          color: kColorScheme.secondaryContainer,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kColorScheme.primaryContainer,
+            foregroundColor: kColorScheme.onPrimaryContainer,
+          ),
+        ),
+        textTheme: TextTheme(
+          titleLarge: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: kColorScheme.onSecondaryContainer,
+            fontSize: 16,
+          ),
+        ),
+      ),
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: kDarkColorScheme,
         cardTheme: const CardTheme().copyWith(
           color: kDarkColorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -59,33 +81,6 @@ class _RecipeAppState extends State<RecipeApp> {
           ),
         ),
       ),
-      theme: ThemeData().copyWith(
-        colorScheme: kColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimaryContainer,
-          foregroundColor: kColorScheme.primaryContainer,
-        ),
-        cardTheme: const CardTheme().copyWith(
-          color: kColorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            //backgroundColor: kColorScheme.primaryContainer,
-          ),
-        ),
-        textTheme: ThemeData().textTheme.copyWith(
-          titleLarge: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: kColorScheme.onSecondaryContainer,
-            fontSize: 16,
-          ),
-        ),
-      ),
-      // themeMode: ThemeMode.system, // default
       home: Scaffold(
         appBar: AppBar(title: const Text("Recipe App")),
         body: screenWidget,
@@ -93,4 +88,3 @@ class _RecipeAppState extends State<RecipeApp> {
     );
   }
 }
-
