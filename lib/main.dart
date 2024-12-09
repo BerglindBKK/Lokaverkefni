@@ -1,62 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:lokaverkefni/welcome_screen.dart';
+//Runs the RecipeApp that manages states and logic for the app
 
+import 'package:flutter/material.dart';
+import 'package:lokaverkefni/recipe_app/recipe_app.dart';
+
+//color schemes
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(140, 185, 95, 230),
+  seedColor: const Color.fromARGB(255, 43, 205, 132),
 );
 
 var kDarkColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 5, 99, 125),
+  seedColor: const Color.fromARGB(255, 177, 136, 31),
 );
 
 void main() {
-  runApp(
-    MaterialApp(
-      darkTheme: ThemeData.dark().copyWith(
-        colorScheme: kDarkColorScheme,
-        cardTheme: const CardTheme().copyWith(
-          color: kDarkColorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kDarkColorScheme.primaryContainer,
-            foregroundColor: kDarkColorScheme.onPrimaryContainer,
-          ),
-        ),
-      ),
-      theme: ThemeData().copyWith(
-        colorScheme: kColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimaryContainer,
-          foregroundColor: kColorScheme.primaryContainer,
-        ),
-        cardTheme: const CardTheme().copyWith(
-          color: kColorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kColorScheme.primaryContainer,
-          ),
-        ),
-        textTheme: ThemeData().textTheme.copyWith(
-          titleLarge: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: kColorScheme.onSecondaryContainer,
-            fontSize: 16,
-          ),
-        ),
-      ),
-      // themeMode: ThemeMode.system, // default
-      home: WelcomeScreen(),
-    ),
-  );
+  runApp(const RecipeApp());
 }
