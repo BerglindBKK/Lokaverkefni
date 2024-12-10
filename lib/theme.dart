@@ -5,7 +5,7 @@ const kColorScheme = ColorScheme(
 
   //primary: Color(0xFF6200EE), // Primary color
   primary: Color(0xFF03DAC6), // Primary color
-  onPrimary: Colors.white,
+  onPrimary: Color(0xFFAFF4EE),
   secondary: Color(0xFF03DAC6), // Secondary color
   onSecondary: Colors.black,
   //background: Color(0xFFF1F1F1),

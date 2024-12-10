@@ -14,6 +14,7 @@ class RecipeApp extends StatefulWidget {
 class _RecipeAppState extends State<RecipeApp> {
   // Sets the default screen to the welcome screen
   String activeScreen = 'welcome-screen';
+  String appBarTitle = "Recipe App";
 
   // Switches to the active screen
   void switchScreen(String screen) {
@@ -34,12 +35,15 @@ class _RecipeAppState extends State<RecipeApp> {
     switch (activeScreen) {
       case 'all-recipes':
         screenWidget = AllRecipesScreen(onBack: () => switchScreen('welcome-screen'));
+        appBarTitle = "All Recipes";
         break;
       case 'add-recipes':
-        screenWidget = AddRecipesScreen(onBack: () => switchScreen('welcome-screen'));
+        screenWidget = AddRecipesScreen(onBack: () => switchScreen('welcome-screen'), title: appBarTitle);
+        appBarTitle = "Add a Recipe";
         break;
       default:
         screenWidget = WelcomeScreen(onNavigate: switchScreen);
+        appBarTitle = "Welcome"; // Set AppBar title for WelcomeScreen
     }
 
     return MaterialApp(
@@ -48,7 +52,7 @@ class _RecipeAppState extends State<RecipeApp> {
       //themeMode: ThemeMode.light, // Force the app to always use the light theme
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Recipe App"),
+          title: Text(appBarTitle),
           elevation: 10, // Controls how high the shadow appears
           // Set shadowColor to customize the shadow color
           shadowColor: Colors.black.withOpacity(0.5), // Customize the shadow colo

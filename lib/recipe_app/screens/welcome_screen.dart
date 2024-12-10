@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lokaverkefni/buttons/main_screen_button.dart';
+import 'package:lokaverkefni/widgets/main_screen_button.dart';
 import 'package:lokaverkefni/theme.dart';
 
 class WelcomeScreen extends StatelessWidget {
