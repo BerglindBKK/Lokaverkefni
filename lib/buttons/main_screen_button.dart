@@ -18,16 +18,16 @@ class MainScreenButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.withOpacity(0.5), // 50% transparent grey background
-        foregroundColor: colorScheme.onPrimary, // Button text color
+        backgroundColor: colorScheme.primary.withOpacity(0.2), // 50% transparent
+        foregroundColor: colorScheme.primary, // Button text color
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
-          side: const BorderSide(
-            color: Colors.yellowAccent, // Border color (can change to match your theme)
+          side: BorderSide(
+            color: colorScheme.primary, // Border color
             width: 1.0, // Fine border width
           ),
         ),
-        elevation: 0, // Remove button shadow (if any)
+        elevation: 4.0, // Remove button shadow (if any)
       ),
       child: Text(
         buttonText, // Text passed from parent widget

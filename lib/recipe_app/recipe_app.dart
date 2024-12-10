@@ -1,14 +1,8 @@
-//this file called by the main file
-//manages states and states and determines which screen is displayed:
-  //add a recipe
-  //search for a recipe
-  //see all recipes
-  //random recipe
-
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/recipe_app/screens/add_recipe.dart';
 import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
 import 'package:lokaverkefni/recipe_app/screens/welcome_screen.dart';
+import '../theme.dart';
 
 class RecipeApp extends StatefulWidget {
   const RecipeApp({super.key});
@@ -18,10 +12,10 @@ class RecipeApp extends StatefulWidget {
 }
 
 class _RecipeAppState extends State<RecipeApp> {
-  //sets the default screen to the welcome screen
+  // Sets the default screen to the welcome screen
   String activeScreen = 'welcome-screen';
 
-  // switches to the active screen
+  // Switches to the active screen
   void switchScreen(String screen) {
     setState(() {
       activeScreen = screen;
@@ -30,9 +24,13 @@ class _RecipeAppState extends State<RecipeApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Debugging: Print active primary color
+    final primaryColor = Theme.of(context).colorScheme.primary;
+    print("THEME_LOG: Active primary color: $primaryColor");
+    print("AppBar primary color: $primaryColor"); // Debugging line
+
     // Determine the active screen
     Widget screenWidget;
-
     switch (activeScreen) {
       case 'all-recipes':
         screenWidget = AllRecipesScreen(onBack: () => switchScreen('welcome-screen'));
@@ -45,10 +43,17 @@ class _RecipeAppState extends State<RecipeApp> {
     }
 
     return MaterialApp(
+      theme: lightTheme,  // Use the light theme defined in theme.dart
+      darkTheme: darkTheme,  // Use the dark theme defined in theme.dart
+      //themeMode: ThemeMode.light, // Force the app to always use the light theme
       home: Scaffold(
-        appBar: AppBar(title: const Text("Recipe App ukghvkhj")),
+        appBar: AppBar(
+          title: const Text("Recipe App"),
+        ),
         body: screenWidget,
       ),
     );
+
+
   }
 }
