@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/buttons/main_screen_button.dart';
-import 'package:lokaverkefni/recipe_app/recipe_app.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key, required this.onNavigate});
@@ -10,31 +8,49 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Stack(
         children: [
-          const Text('Recipe App', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () => onNavigate('all-recipes'),
-            child: const Text('See All Recipes'),
+          // Background image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                //image: AssetImage('assets/images/recipe_app_landing.jpg'), // Your image path
+                image: NetworkImage('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'),
+                fit: BoxFit.cover, // Make the image cover the entire screen
+              ),
+            ),
           ),
-          const SizedBox(height: 30),
-          MainScreenButton(
-            //answerText: answer,
-            onTap: () {
-              print('Main Screen Button clicked!');
-          //answerQuestion(answer);
-            },
-            buttonText: 'Tap me!', // Pass the text here
+          // Overlay content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Recipe App',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white, // Ensure the text is readable
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => onNavigate('all-recipes'),
+                  child: const Text(
+                    'See All Recipes',
+                    style: TextStyle(color: Colors.white), // Make button text white
+                  ),
+                ),
+                const SizedBox(height: 10),
+                MainScreenButton(
+                  onTap: () => onNavigate('add-recipes'),
+                  buttonText: 'Add a Recipe',
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 30),
-          MainScreenButton(
-            onTap: () => onNavigate('all-recipes'),
-            buttonText: 'khjk',
-          ),
-            //buttonText: 'Tap me!', // Pass the text here
         ],
       ),
     );

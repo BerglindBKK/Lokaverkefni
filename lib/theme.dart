@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 const kColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFF6200EE), // Primary color
+
+  //primary: Color(0xFF6200EE), // Primary color
+  primary: Color(0xFFEE00DA), // Primary color
   onPrimary: Colors.white,
   secondary: Color(0xFF03DAC6), // Secondary color
   onSecondary: Colors.black,
