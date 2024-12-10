@@ -31,21 +31,21 @@ class WelcomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center, // Center the buttons horizontally
               children: [
                 //Title
-                const Text(
-                  'Recipe App',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 20),
+                //const Text(
+                //  'Recipe App',
+                //  style: TextStyle(
+                //    fontSize: 32,
+                //    fontWeight: FontWeight.bold,
+                //    color: Colors.white,
+                //  ),
+                //),
+                //const SizedBox(height: 20),
                 //Button1
                 SizedBox(
                   width: double.infinity,
                   child: MainScreenButton(
                     onTap: () => onNavigate('all-recipes'),
-                    buttonText: 'All recipes',
+                    buttonText: 'ALL RECIPES',
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -54,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                   width: double.infinity,
                   child: MainScreenButton(
                     onTap: () => onNavigate('add-recipes'),
-                    buttonText: 'Add a Recipe',
+                    buttonText: 'ADD A RECIPE',
                   ),
                 ),
               ],

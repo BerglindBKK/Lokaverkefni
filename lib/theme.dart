@@ -4,7 +4,7 @@ const kColorScheme = ColorScheme(
   brightness: Brightness.light,
 
   //primary: Color(0xFF6200EE), // Primary color
-  primary: Color(0xFFF1D54E), // Primary color
+  primary: Color(0xFF03DAC6), // Primary color
   onPrimary: Colors.white,
   secondary: Color(0xFF03DAC6), // Secondary color
   onSecondary: Colors.black,
@@ -33,7 +33,7 @@ const kDarkColorScheme = ColorScheme(
 // Defining the AppBarTheme in the ThemeData
 final lightTheme = ThemeData.from(colorScheme: kColorScheme).copyWith(
   appBarTheme: const AppBarTheme(
-    backgroundColor: Color(0xFFF1D54E), // Background color of AppBar (matches primary color)
+    backgroundColor: Color(0xFF03DAC6), // Background color of AppBar (matches primary color)
     foregroundColor: Colors.black, // Text color on AppBar
     elevation: 4.0, // Set elevation (shadow) of AppBar
     titleTextStyle: TextStyle(

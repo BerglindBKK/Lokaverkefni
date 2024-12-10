@@ -49,6 +49,9 @@ class _RecipeAppState extends State<RecipeApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text("Recipe App"),
+          elevation: 10, // Controls how high the shadow appears
+          // Set shadowColor to customize the shadow color
+          shadowColor: Colors.black.withOpacity(0.5), // Customize the shadow colo
         ),
         body: screenWidget,
       ),
