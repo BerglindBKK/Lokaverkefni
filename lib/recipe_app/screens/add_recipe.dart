@@ -5,7 +5,10 @@ class AddRecipesScreen extends StatelessWidget {
   final VoidCallback onBack;
   final String title;
 
-  const AddRecipesScreen({super.key, required this.onBack, required this.title});
+  const AddRecipesScreen({
+    super.key,
+    required this.onBack,
+    required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +40,8 @@ class AddRecipesScreen extends StatelessWidget {
 
           //Procedure
           const CustomInputContainer(
-            labelText: 'Procedure', // Custom label for this instance
-            //controller: procedureController,  // Pass the controller
+            labelText: 'Instructions', // Custom label for this instance
+            //controller: instructionsController,  // Pass the controller
             height: 200,
           ),
 

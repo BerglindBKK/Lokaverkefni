@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AllRecipesScreen extends StatelessWidget {
-  const AllRecipesScreen({super.key, required this.onBack});
+  const AllRecipesScreen({
+    super.key,
+    required this.onBack});
 
   final VoidCallback onBack;
 

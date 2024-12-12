@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/theme.dart';
 import 'package:lokaverkefni/widgets/main_screen_button.dart';
-import 'package:text_hover/config.dart';
-import 'package:text_hover/text_hover.dart';
+import 'package:lokaverkefni/widgets/recipe_card.dart';
+//import 'package:text_hover/config.dart';
+//import 'package:text_hover/text_hover.dart';
 //import 'package:lokaverkefni/widgets/floating_action_button.dart';
 
 // The welcome page
@@ -51,6 +52,17 @@ class WelcomeScreen extends StatelessWidget {
                     buttonText: 'ADD A RECIPE',
                   ),
                 ),
+                const SizedBox(height: 10),
+                // RecipeCard
+                SizedBox(
+                  width: double.infinity,
+                  child: RecipeCard(
+                    onTap: () => onNavigate('add-recipes'),
+                    cardText : 'Title frá welcome_screen',
+                    //title: recipe.title
+                    //cardText: 'HALLÓ SÉST ÉG??',
+                  ),
+                ),
               ],
             ),
           ),
@@ -60,22 +72,8 @@ class WelcomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
         onPressed: () => onNavigate('add-recipes'),
-        //child: Stack(
-        //  alignment: Alignment.center,  // Aligns the widgets in the center
-        //  children: [
         child: const Icon(Icons.add),  // Icon inside the button
-        //    Positioned(
-        //      bottom: 0,  // Position the text below the icon
-              //child: TextHover(
-              //  text: 'Aesthetic Ethiel',
-              //  config: Config(
-              //    hoverColor: Colors.red,
-              //    textColor: Colors.black,
-               // ),
-              //),
-            //),
-          //],
-        //),
+
       ),
     );
   }
