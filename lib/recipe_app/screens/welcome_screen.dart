@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lokaverkefni/theme.dart';
 import 'package:lokaverkefni/widgets/main_screen_button.dart';
 import 'package:lokaverkefni/widgets/recipe_card.dart';
+import 'package:lokaverkefni/widgets/recipes_list.dart';
+import 'package:lokaverkefni/models/recipe.dart';
+import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
 //import 'package:text_hover/config.dart';
 //import 'package:text_hover/text_hover.dart';
 //import 'package:lokaverkefni/widgets/floating_action_button.dart';
@@ -54,15 +57,16 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 // RecipeCard
-                SizedBox(
-                  width: double.infinity,
-                  child: RecipeCard(
-                    onTap: () => onNavigate('add-recipes'),
-                    cardText : 'Title frá welcome_screen',
+                //SizedBox(
+                  //width: double.infinity,
+                  //child: RecipeCard(
+                    //recipes[index],
+                    //onTap: () => onNavigate('add-recipes'),
+                    //cardText : 'Title frá welcome_screen',
                     //title: recipe.title
                     //cardText: 'HALLÓ SÉST ÉG??',
-                  ),
-                ),
+                  //),
+                //),
               ],
             ),
           ),

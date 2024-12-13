@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-//widget for a custom container
 class CustomInputContainer extends StatelessWidget {
   final String labelText;
-  //final TextEditingController controller;
+  final TextEditingController controller;  // Added the controller parameter
   final double? height;  // Optional height for the container
 
   const CustomInputContainer({
     super.key,
     required this.labelText,
-    //required this.controller,
+    required this.controller,  // Make the controller a required parameter
     this.height,  // Optional height
   });
 
@@ -21,9 +20,6 @@ class CustomInputContainer extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
       decoration: BoxDecoration(
         border: Border.all(color: Theme.of(context).colorScheme.secondary), // Use secondary color from the theme
-        //color: Theme.of(context).colorScheme.onPrimary,
-        //border: Border.all(color: Colors.grey.withOpacity(0.3)),
-
         gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -47,7 +43,7 @@ class CustomInputContainer extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,  // Scroll vertically
           child: TextField(
-            //controller: controller,
+            controller: controller,  // Pass the controller here
             maxLines: null,  // Allow the TextField to expand vertically
             keyboardType: TextInputType.multiline,
             decoration: InputDecoration(

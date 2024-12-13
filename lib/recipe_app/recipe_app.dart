@@ -1,8 +1,13 @@
+//Manages the screens and returns the screenwidget
+
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/recipe_app/screens/add_recipe.dart';
 import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
 import 'package:lokaverkefni/recipe_app/screens/welcome_screen.dart';
 import '../theme.dart';
+import 'package:lokaverkefni/models/recipe.dart';
+import 'package:lokaverkefni/widgets/recipes.dart';
+import 'package:lokaverkefni/data/recipe_data.dart';
 
 class RecipeApp extends StatefulWidget {
   const RecipeApp({super.key});
@@ -12,11 +17,14 @@ class RecipeApp extends StatefulWidget {
 }
 
 class _RecipeAppState extends State<RecipeApp> {
-  // Sets the default screen to the welcome screen
   String activeScreen = 'welcome-screen';
   String appBarTitle = "Recipe App";
 
-  // Switches to the active screen
+
+  // Access registeredRecipes from the RecipeData class
+  final List<Recipe> _registeredRecipes = RecipeData.registeredRecipes;
+
+  //Sets the current screen
   void switchScreen(String screen) {
     setState(() {
       activeScreen = screen;
@@ -24,17 +32,15 @@ class _RecipeAppState extends State<RecipeApp> {
   }
 
   @override
+  //decides on which screen to display
   Widget build(BuildContext context) {
-    // Debugging: Print active primary color
-    final primaryColor = Theme.of(context).colorScheme.primary;
-    print("THEME_LOG: Active primary color: $primaryColor");
-    print("AppBar primary color: $primaryColor"); // Debugging line
-
-    // Determine the active screen
     Widget screenWidget;
     switch (activeScreen) {
       case 'all-recipes':
-        screenWidget = AllRecipesScreen(onBack: () => switchScreen('welcome-screen'));
+        screenWidget = AllRecipesScreen(
+          onBack: () => switchScreen('welcome-screen'),
+          recipes: _registeredRecipes,
+        );
         appBarTitle = "All Recipes";
         break;
       case 'add-recipes':
@@ -43,24 +49,29 @@ class _RecipeAppState extends State<RecipeApp> {
         break;
       default:
         screenWidget = WelcomeScreen(onNavigate: switchScreen);
-        appBarTitle = "Welcome"; // Set AppBar title for WelcomeScreen
+        appBarTitle = "Welcome";
     }
 
+    //returns Appbar with the corresponding appbar title
+    //returns the screenwidget
     return MaterialApp(
-      theme: lightTheme,  // Use the light theme defined in theme.dart
-      darkTheme: darkTheme,  // Use the dark theme defined in theme.dart
-      //themeMode: ThemeMode.light, // Force the app to always use the light theme
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: Scaffold(
         appBar: AppBar(
           title: Text(appBarTitle),
-          elevation: 10, // Controls how high the shadow appears
-          // Set shadowColor to customize the shadow color
-          shadowColor: Colors.black.withOpacity(0.5), // Customize the shadow colo
+          elevation: 10,
+          shadowColor: Colors.black.withOpacity(0.5),
+          //leading: IconButton(
+            //icon: const Icon(Icons.arrow_back),
+            //onPressed: () {
+              // Handle the back navigation using Navigator.pop()
+              ///Navigator.pop(context);
+            //},
+          //),
         ),
         body: screenWidget,
       ),
     );
-
-
   }
 }

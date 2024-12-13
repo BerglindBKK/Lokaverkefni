@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:lokaverkefni/widgets/recipes_list.dart';
+import 'package:lokaverkefni/models/recipe.dart';
 
 class AllRecipesScreen extends StatelessWidget {
+  final VoidCallback onBack;
+  final List<Recipe> recipes;
+
   const AllRecipesScreen({
     super.key,
-    required this.onBack});
-
-  final VoidCallback onBack;
+    required this.onBack,
+    required this.recipes,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('All Recipes', style: TextStyle(fontSize: 24)),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: onBack,
-            child: const Text('Back to Welcome Screen'),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('All Recipes test'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: onBack,
+        ),
       ),
+      body: recipes.isEmpty
+          ? const Center(child: Text('No recipes available. Add some!'))
+          : RecipesList(recipes: recipes), // Ensure recipes is not null
     );
   }
 }
+
