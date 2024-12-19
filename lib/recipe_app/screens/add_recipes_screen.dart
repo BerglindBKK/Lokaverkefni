@@ -11,7 +11,7 @@ class AddRecipesScreen extends StatefulWidget {
   });
 
   final void Function(Recipe recipe) onAddRecipe;
-  final VoidCallback onBack;
+  final VoidCallback onBack; // onBack will switch to 'all-recipes' when called
   final String title;
 
   @override
@@ -51,19 +51,22 @@ class _AddRecipesState extends State<AddRecipesScreen> {
       return;
     }
 
-    // If all fields are filled, add the recipe
-    widget.onAddRecipe(
-      Recipe(
-        title: _titleController.text,
-        ingredients: _ingredientsController.text,
-        instructions: _instructionsController.text,
-        category: _selectedCategory,
-        cookingTime: 'Unknown',  // Placeholder for cooking time
-      ),
+    // Create the new recipe object
+    Recipe newRecipe = Recipe(
+      title: _titleController.text,
+      ingredients: _ingredientsController.text,
+      instructions: _instructionsController.text,
+      category: _selectedCategory,
+      cookingTime: _cookingTimeController.text.isEmpty
+          ? 'Unknown' // Default value if no cooking time is provided
+          : _cookingTimeController.text,
     );
 
-    // Navigate back to the previous screen after adding the recipe
-    Navigator.pop(context);
+    // Add the new recipe to the list of recipes
+    widget.onAddRecipe(newRecipe);
+
+    // Switch to the 'all-recipes' screen after saving
+    widget.onBack(); // This will switch the screen to 'all-recipes'
   }
 
   @override
@@ -71,6 +74,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     _titleController.dispose();
     _ingredientsController.dispose();
     _instructionsController.dispose();
+    _cookingTimeController.dispose();
     super.dispose();
   }
 
@@ -81,6 +85,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
         flexibleSpace: Padding(
           padding: const EdgeInsets.only(top: 48.0, left: 16),
           child: Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 onPressed: widget.onBack,
@@ -121,12 +126,12 @@ class _AddRecipesState extends State<AddRecipesScreen> {
               height: 200,
             ),
 
-            // Row containing both cooking time and category dropdown
+            // Cooking time and category dropdown row
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Row(
                 children: [
-                  // Cooking Time Input with "min" inside the container
+                  // Cooking Time Input
                   Expanded(
                     child: CustomInputContainer(
                       labelText: 'Cooking Time (min)',  // "min" is part of the label
@@ -163,15 +168,12 @@ class _AddRecipesState extends State<AddRecipesScreen> {
 
             // Save Button
             ElevatedButton(
-              onPressed: _submitRecipeData,
+              onPressed: () {
+                _submitRecipeData(); // This will save the recipe
+                widget.onBack(); // This will switch to the "All Recipes" screen
+              },
               child: const Text('Save'),
-            ),
-
-            // Back Button to navigate to the previous screen
-            ElevatedButton(
-              onPressed: widget.onBack,
-              child: const Text('Back to Recipes'),
-            ),
+            )
           ],
         ),
       ),

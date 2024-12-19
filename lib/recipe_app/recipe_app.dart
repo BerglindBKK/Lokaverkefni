@@ -45,7 +45,7 @@ class _RecipeAppState extends State<RecipeApp> {
         break;
       case 'add-recipes':
         screenWidget = AddRecipesScreen(
-          onBack: () => switchScreen('welcome-screen'),
+          onBack: () => switchScreen('all-recipes'),
           title: appBarTitle,
           onAddRecipe: _addRecipe,  // virkar ekki ennþá
         );
