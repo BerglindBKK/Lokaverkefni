@@ -16,7 +16,7 @@ class RecipeData {
       ingredients: 'sdfgsdf',
       instructions: 'sgfd',
       cookingTime: '10min',
-      category: Category.dessert,
+      category: Category.pasta,
     ),
   ];
 }

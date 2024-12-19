@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
-import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
 import 'package:lokaverkefni/widgets/recipes_list.dart';
+import 'package:lokaverkefni/recipe_app/screens/add_recipes_screen.dart';
 
 class Recipes extends StatefulWidget {
   const Recipes({super.key});
@@ -12,57 +12,66 @@ class Recipes extends StatefulWidget {
   }
 }
 
-//final List<Recipe> recipes = [];
-
 class _RecipeState extends State<Recipes> {
   final List<Recipe> _registeredRecipes = [
     Recipe(
-      title: 'Rice crispies kökur',
+      title: 'Rice crispies cookies',
       ingredients: 'rice crispies, syrup',
-      instructions: 'mix and cool',
-      cookingTime: '40min_recipes.dart',
+      instructions: 'Mix and cool',
+      cookingTime: '40 min',
       category: Category.dessert,
     ),
     Recipe(
-      title: 'Rblabla',
-      ingredients: 'sdfgsdf',
-      instructions: 'sgfd',
-      cookingTime: '10min',
-      category: Category.dessert,
+      title: 'Pasta Bolognese',
+      ingredients: 'Pasta, meat, tomato sauce',
+      instructions: 'Cook pasta, prepare sauce',
+      cookingTime: '30 min',
+      category: Category.pasta,
     ),
   ];
 
-  List<Recipe> get registeredRecipes => _registeredRecipes;
+  void _addRecipe(Recipe recipe) {
+    setState(() {
+      _registeredRecipes.add(recipe);
+    });
+  }
 
-  //void _addRecipe(Recipe recipe) {
-  //  setState(() {
-  //    _registeredRecipes.add(recipe);
-  //    // Debugging line to check the list content after adding
-  //    print('Updated recipes: $_registeredRecipes');
-  //  });
-  //}
+  void _deleteRecipe(Recipe recipe) {
+    setState(() {
+      _registeredRecipes.remove(recipe);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Check if the recipes list is empty
-    Widget mainContent = const Center(
-      child: Text('Engar uppskriftir'),
-    );
-
-    //if (_registeredRecipes.isNotEmpty)  {
-      //mainContent = RecipesList(
-        //recipes: _registeredRecipes,
-      //);
-      //mainContent = AllRecipesScreen(
-        //onBack: () {
-          // Handle back action here, e.g., navigate back
-        //},
-        //recipes: _registeredRecipes, // Pass the list of recipes
-      //);
-    //}
-
     return Scaffold(
-      body: mainContent, // Display the content based on the check
+      appBar: AppBar(
+        title: const Text('Recipes'),
+      ),
+      body: _registeredRecipes.isEmpty
+          ? const Center(child: Text('No recipes available.'))
+          : RecipesList(
+        recipes: _registeredRecipes,
+        onDeleteRecipe: _deleteRecipe,  // Pass delete handler
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the Add Recipe screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (ctx) => AddRecipesScreen(
+                onBack: () {
+                  Navigator.pop(ctx);  // Go back to the previous screen
+                },
+                onAddRecipe: _addRecipe,
+                title: 'Add Recipe',
+              ),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

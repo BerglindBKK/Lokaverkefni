@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CustomInputContainer extends StatelessWidget {
   final String labelText;
-  final TextEditingController controller;  // Added the controller parameter
-  final double? height;  // Optional height for the container
+  final TextEditingController controller;
+  final double? height;
 
   const CustomInputContainer({
     super.key,
     required this.labelText,
-    required this.controller,  // Make the controller a required parameter
-    this.height,  // Optional height
+    required this.controller,
+    this.height,
   });
 
   @override
@@ -19,7 +19,7 @@ class CustomInputContainer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.secondary), // Use secondary color from the theme
+        border: Border.all(color: Theme.of(context).colorScheme.secondary),
         gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -31,20 +31,20 @@ class CustomInputContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.02), // Light shadow color
-            offset: const Offset(0, 4), // Shadow position
-            blurRadius: 8, // Shadow blur
-            spreadRadius: 2, // Spread shadow a bit
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.02),
+            offset: const Offset(0, 4),
+            blurRadius: 8,
+            spreadRadius: 2,
           ),
         ],
       ),
       child: SizedBox(
-        height: height,  // Ensure the height is applied here
+        height: height,
         child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,  // Scroll vertically
+          scrollDirection: Axis.vertical,
           child: TextField(
-            controller: controller,  // Pass the controller here
-            maxLines: null,  // Allow the TextField to expand vertically
+            controller: controller,
+            maxLines: null,
             keyboardType: TextInputType.multiline,
             decoration: InputDecoration(
               labelText: labelText,

@@ -1,14 +1,12 @@
-//the recipe class, also defines the categories
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-//for creating id
 const uuid = Uuid();
 
-//defines the categories
-enum Category {meat, fish, pasta, salad, dessert}
+// Defines the categories
+enum Category { meat, fish, pasta, salad, dessert }
 
-//defines icons for each category
+// Defines icons for each category
 const categoryIcons = {
   Category.meat: Icons.lunch_dining,
   Category.fish: Icons.flight_takeoff,
@@ -16,6 +14,7 @@ const categoryIcons = {
   Category.salad: Icons.work,
   Category.dessert: Icons.work,
 };
+
 
 class Recipe {
   Recipe({
@@ -26,11 +25,13 @@ class Recipe {
     required this.category,
   }) : id = uuid.v4();
 
-  final String id;
+  final String id;  // Unique ID for each recipe
   final String title;
   final String instructions;
   final String ingredients;
   final String cookingTime;
   final Category category;
-
 }
+
+
+

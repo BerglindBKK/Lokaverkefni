@@ -4,7 +4,7 @@ import 'package:lokaverkefni/widgets/main_screen_button.dart';
 import 'package:lokaverkefni/widgets/recipe_card.dart';
 import 'package:lokaverkefni/widgets/recipes_list.dart';
 import 'package:lokaverkefni/models/recipe.dart';
-import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
+import 'package:lokaverkefni/recipe_app/screens/all_recipes_screen.dart';
 //import 'package:text_hover/config.dart';
 //import 'package:text_hover/text_hover.dart';
 //import 'package:lokaverkefni/widgets/floating_action_button.dart';
@@ -18,6 +18,15 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Welcome'),
+        //actions: [
+          //IconButton(
+            //onPressed: onBack,
+            //icon: const Icon(Icons.arrow_back),
+          //),
+        //],
+      ),
       // Stack for overlaying widgets on top of each other (background + content)
       body: Stack(
         children: [
@@ -36,7 +45,7 @@ class WelcomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center, // Center the buttons horizontally
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Button 1
                 SizedBox(
@@ -72,12 +81,10 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      // Use floatingActionButton property to add the button
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
         onPressed: () => onNavigate('add-recipes'),
         child: const Icon(Icons.add),  // Icon inside the button
-
       ),
     );
   }

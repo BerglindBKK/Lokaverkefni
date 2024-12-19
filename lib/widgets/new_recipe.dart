@@ -2,23 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:lokaverkefni/widgets/custom_input_container.dart';
 import 'package:lokaverkefni/models/recipe.dart';
 
-class AddRecipesScreen extends StatelessWidget {
-  final VoidCallback onBack;
-  final String title;
-
-  const AddRecipesScreen({
+class NewRecipe extends StatefulWidget {
+  const NewRecipe({
     super.key,
     required this.onBack,
     required this.title,
+    required this.onAddRecipe
   });
+
+  final void Function(Recipe recipe) onAddRecipe;
+  final VoidCallback onBack;
+  final String title;
+
+  @override
+  State<NewExpense> createState() {
+    return _NewRecipeState();
+  }
+}
+
+class _NewRecipeState extends State<NewRecipe> {
+  final _titleController = TextEditingController();
+  final _ingredientsController = TextEditingController();
+  final _instructionsController = TextEditingController();
+  Category _selectedCategory = Category.dessert;
+
+
+  widget.onAddRecipe(
+    Recipe(
+    title: _titleController.text,
+    ingredients: _ingredientsController.text
+    instructions: _instructionsController.text,
+    category: _selectedCategory,
+    ),
+  );
+  Navigator.pop(context);
+}
 
   @override
   Widget build(BuildContext context) {
-    // Create TextEditingController for each input
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController ingredientsController = TextEditingController();
-    final TextEditingController instructionsController = TextEditingController();
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -55,14 +76,13 @@ class AddRecipesScreen extends StatelessWidget {
                   title: titleController.text,
                   ingredients: ingredientsController.text,
                   instructions: instructionsController.text,
-                  cookingTime: 'Unknown',  // Placeholder, handle if needed
-                  category: Category.dessert,  // Default, can be dynamic if needed
+                  cookingTime: 'Unknown',
+                  category: Category.dessert,
                 );
 
-                // Add the recipe (e.g., pass it back or to a function that handles the list)
-                // You can call your method here to add the recipe to your list of recipes
+                // todo bæta við uppskrift, kalla á funciton til að bæta við lista
               } else {
-                // Optionally, show an alert if required fields are missing
+                // bæta við alert?
                 showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
@@ -71,7 +91,7 @@ class AddRecipesScreen extends StatelessWidget {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context);  // Close the dialog
+                          Navigator.pop(context);
                         },
                         child: const Text('OK'),
                       ),

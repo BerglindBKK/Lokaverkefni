@@ -12,34 +12,33 @@ class MainScreenButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Access color scheme from the Theme file
     final colorScheme = Theme.of(context).colorScheme;
 
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        backgroundColor: colorScheme.primary, //withOpacity(0.2)transparent
-        foregroundColor: colorScheme.surface, // Button text color
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
           side: BorderSide(
-            color: colorScheme.primary, // Border color
-            width: 1.0, // Fine border width
+            color: colorScheme.primary,
+            width: 1.0,
           ),
         ),
-        elevation: 8.0, // Remove button shadow (if any)
+        elevation: 8.0,
       ),
       child: Text(
-        buttonText, // Text passed from parent widget
+        buttonText, // Text comes from the arent widget
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 18, // Set your desired font size here
-          fontWeight: FontWeight.bold, // Optional: set font weight (if needed)
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
           shadows: [
             Shadow(
-              offset: Offset(1.0, 1.0), // Position of the shadow (x, y)
-              blurRadius: 3.0, // How much the shadow is blurred
-              color: Color.fromARGB(50, 0, 0, 0), // Color of the shadow
+              offset: Offset(1.0, 1.0),
+              blurRadius: 3.0,
+              color: Color.fromARGB(50, 0, 0, 0),
             ),
           ],
         ),

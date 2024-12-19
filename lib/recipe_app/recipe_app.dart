@@ -1,12 +1,8 @@
-//Manages the screens and returns the screenwidget
-
 import 'package:flutter/material.dart';
-import 'package:lokaverkefni/recipe_app/screens/add_recipe.dart';
-import 'package:lokaverkefni/recipe_app/screens/all_recipies_screen.dart';
-import 'package:lokaverkefni/recipe_app/screens/welcome_screen.dart';
-import '../theme.dart';
 import 'package:lokaverkefni/models/recipe.dart';
-import 'package:lokaverkefni/widgets/recipes.dart';
+import 'package:lokaverkefni/recipe_app/screens/add_recipes_screen.dart';
+import 'package:lokaverkefni/recipe_app/screens/all_recipes_screen.dart';
+import 'package:lokaverkefni/recipe_app/screens/welcome_screen.dart';
 import 'package:lokaverkefni/data/recipe_data.dart';
 
 class RecipeApp extends StatefulWidget {
@@ -20,11 +16,16 @@ class _RecipeAppState extends State<RecipeApp> {
   String activeScreen = 'welcome-screen';
   String appBarTitle = "Recipe App";
 
-
-  // Access registeredRecipes from the RecipeData class
   final List<Recipe> _registeredRecipes = RecipeData.registeredRecipes;
 
-  //Sets the current screen
+  // Function to add a new recipe
+  void _addRecipe(Recipe newRecipe) {
+    setState(() {
+      _registeredRecipes.add(newRecipe);
+    });
+  }
+
+  // Function to switch between screens
   void switchScreen(String screen) {
     setState(() {
       activeScreen = screen;
@@ -32,7 +33,6 @@ class _RecipeAppState extends State<RecipeApp> {
   }
 
   @override
-  //decides on which screen to display
   Widget build(BuildContext context) {
     Widget screenWidget;
     switch (activeScreen) {
@@ -44,7 +44,11 @@ class _RecipeAppState extends State<RecipeApp> {
         appBarTitle = "All Recipes";
         break;
       case 'add-recipes':
-        screenWidget = AddRecipesScreen(onBack: () => switchScreen('welcome-screen'), title: appBarTitle);
+        screenWidget = AddRecipesScreen(
+          onBack: () => switchScreen('welcome-screen'),
+          title: appBarTitle,
+          onAddRecipe: _addRecipe,  // virkar ekki ennþá
+        );
         appBarTitle = "Add a Recipe";
         break;
       default:
@@ -52,24 +56,32 @@ class _RecipeAppState extends State<RecipeApp> {
         appBarTitle = "Welcome";
     }
 
-    //returns Appbar with the corresponding appbar title
-    //returns the screenwidget
     return MaterialApp(
-      theme: lightTheme,
-      darkTheme: darkTheme,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: Scaffold(
+        /*
         appBar: AppBar(
-          title: Text(appBarTitle),
-          elevation: 10,
-          shadowColor: Colors.black.withOpacity(0.5),
-          //leading: IconButton(
-            //icon: const Icon(Icons.arrow_back),
-            //onPressed: () {
-              // Handle the back navigation using Navigator.pop()
-              ///Navigator.pop(context);
-            //},
-          //),
-        ),
+          flexibleSpace: Padding(
+            padding: const EdgeInsets.only(top: 48.0),
+            child: Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () => switchScreen('welcome-screen'),
+                  icon: const Icon(Icons.arrow_back),
+                ),
+                Text(
+                  'Welcome',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                ),
+              ],
+              //title: Text(appBarTitle),
+              //elevation: 10,
+              //shadowColor: Colors.black.withOpacity(0.5),
+            )
+          )
+        ),*/
         body: screenWidget,
       ),
     );
