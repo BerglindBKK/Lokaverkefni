@@ -67,6 +67,11 @@ class _NewRecipeState extends State<NewRecipe> {
             height: 200,
           ),
 
+          CustomInputContainer(
+            labelText: 'CookingTime',
+            controller: cookingTimeController,
+          ),
+
           // Save button
           ElevatedButton(
             onPressed: () {

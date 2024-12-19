@@ -24,6 +24,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   final _titleController = TextEditingController();
   final _ingredientsController = TextEditingController();
   final _instructionsController = TextEditingController();
+  final _cookingTimeController = TextEditingController();
   Category _selectedCategory = Category.dessert;
 
   // Function to submit the recipe data
@@ -76,12 +77,10 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: Text(widget.title)),
       appBar: AppBar(
         flexibleSpace: Padding(
           padding: const EdgeInsets.only(top: 48.0, left: 16),
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 onPressed: widget.onBack,
@@ -94,7 +93,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
             ],
           ),
         ),
-      ),// Show the screen title in the AppBar
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -120,6 +119,46 @@ class _AddRecipesState extends State<AddRecipesScreen> {
               labelText: 'Instructions',
               controller: _instructionsController,
               height: 200,
+            ),
+
+            // Row containing both cooking time and category dropdown
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Row(
+                children: [
+                  // Cooking Time Input with "min" inside the container
+                  Expanded(
+                    child: CustomInputContainer(
+                      labelText: 'Cooking Time (min)',  // "min" is part of the label
+                      controller: _cookingTimeController,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+
+                  // Category Dropdown
+                  Expanded(
+                    child: DropdownButton<Category>(
+                      value: _selectedCategory,
+                      items: Category.values
+                          .map(
+                            (category) => DropdownMenuItem<Category>(
+                          value: category,
+                          child: Text(category.name), // Display the category name as is
+                        ),
+                      )
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) {
+                          return;
+                        }
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             // Save Button

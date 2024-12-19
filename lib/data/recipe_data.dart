@@ -8,7 +8,7 @@ class RecipeData {
       title: 'Rice crispies kökur',
       ingredients: 'rice crispies, syrup',
       instructions: 'mix and cool',
-      cookingTime: '40min_recipes.dart',
+      cookingTime: '40min',
       category: Category.dessert,
     ),
     Recipe(
