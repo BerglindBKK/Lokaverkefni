@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/widgets/recipes_list.dart';
 import 'package:lokaverkefni/models/recipe.dart';
-import 'package:lokaverkefni/recipe_app/recipe_app.dart';
 
-class AllRecipesScreen extends StatelessWidget {
+class AllRecipesScreen extends StatefulWidget {
   final List<Recipe> recipes;
   final VoidCallback onBack;
 
@@ -13,10 +12,26 @@ class AllRecipesScreen extends StatelessWidget {
     required this.onBack,
   });
 
-  // Function to delete a recipe - virkar ekki ennþá
+  @override
+  State<AllRecipesScreen> createState() => _AllRecipesScreenState();
+}
+
+class _AllRecipesScreenState extends State<AllRecipesScreen> {
+  String query = "";  // Store the search query
+
+  // Function to delete a recipe (not implemented yet)
   void _deleteRecipe(Recipe recipe) {
     // todo
     print('Deleted recipe: ${recipe.title}');
+  }
+
+  // Function to filter the recipes based on the query
+  List<Recipe> _getFilteredRecipes(String query) {
+    return widget.recipes
+        .where((recipe) =>
+    recipe.title.toLowerCase().contains(query.toLowerCase()) ||
+        recipe.ingredients.toLowerCase().contains(query.toLowerCase())) // Filter by title or ingredients
+        .toList();
   }
 
   @override
@@ -24,25 +39,48 @@ class AllRecipesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Padding(
-        padding: const EdgeInsets.only(top: 48.0, left: 16),
+          padding: const EdgeInsets.only(top: 48.0, left: 16),
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                onPressed: onBack,
+                onPressed: widget.onBack,
                 icon: const Icon(Icons.arrow_back_ios),
               ),
               Text(
-                'All recipes',
+                'All Recipes',
                 style: TextStyle(fontSize: 24, color: Colors.black),
               ),
             ],
           ),
         ),
       ),
-      body: RecipesList(
-        recipes: recipes,
-        onDeleteRecipe: _deleteRecipe, // virkar ekki ennþá
+      body: Column(
+        children: [
+          // SearchBar placed here
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (String newQuery) {
+                setState(() {
+                  query = newQuery;  // Update query as user types
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Search recipes...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+
+          // Recipes List that is filtered based on search query
+          Expanded(
+            child: RecipesList(
+              recipes: _getFilteredRecipes(query),  // Use filtered recipes
+              onDeleteRecipe: _deleteRecipe, // Pass delete handler
+            ),
+          ),
+        ],
       ),
     );
   }
