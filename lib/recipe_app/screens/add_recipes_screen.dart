@@ -178,13 +178,14 @@ class _AddRecipesState extends State<AddRecipesScreen> {
               child: CustomInputContainer(
                 labelText: 'Photo URL',
                 controller: _photoUrlController,
+                height: 50,
               ),
             ),
 
             // Save Button
             ElevatedButton(
               onPressed: () {
-                _submitRecipeData(); // This will save the recipe
+                _submitRecipeData(); //  save the recipe
                 widget.onBack(); // This will switch to the "All Recipes" screen
               },
               child: const Text('Save'),

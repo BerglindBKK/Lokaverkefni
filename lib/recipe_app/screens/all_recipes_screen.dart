@@ -19,10 +19,18 @@ class AllRecipesScreen extends StatefulWidget {
 class _AllRecipesScreenState extends State<AllRecipesScreen> {
   String query = "";  // Store the search query
 
-  // Function to delete a recipe (not implemented yet)
+  // Function to delete a recipe
   void _deleteRecipe(Recipe recipe) {
-    // todo
-    print('Deleted recipe: ${recipe.title}');
+    setState(() {
+      widget.recipes.remove(recipe);  // Remove the recipe from the list
+    });
+    // SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${recipe.title} deleted'),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   // Function to filter the recipes based on the query
