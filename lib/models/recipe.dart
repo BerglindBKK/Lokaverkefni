@@ -23,6 +23,8 @@ class Recipe {
     required this.ingredients,
     required this.cookingTime,
     required this.category,
+    this.imagePath,
+    this.photoUrl,
   }) : id = uuid.v4();
 
   final String id;  // Unique ID for each recipe
@@ -31,6 +33,8 @@ class Recipe {
   final String ingredients;
   final String cookingTime;
   final Category category;
+  final String? imagePath; // stores image path - seinna
+  final String? photoUrl; // URL for an online photo
 }
 
 

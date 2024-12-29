@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
 import 'package:lokaverkefni/widgets/custom_input_container.dart';
+//import 'dart:io';
 
 class AddRecipesScreen extends StatefulWidget {
   const AddRecipesScreen({
@@ -25,13 +26,15 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   final _ingredientsController = TextEditingController();
   final _instructionsController = TextEditingController();
   final _cookingTimeController = TextEditingController();
+  final _photoUrlController = TextEditingController();
   Category _selectedCategory = Category.dessert;
 
   // Function to submit the recipe data
   void _submitRecipeData() {
     if (_titleController.text.trim().isEmpty ||
         _ingredientsController.text.trim().isEmpty ||
-        _instructionsController.text.trim().isEmpty) {
+        _instructionsController.text.trim().isEmpty ||
+        _photoUrlController.text.trim().isEmpty) {
       // If any of the fields are empty, show an alert dialog
       showDialog(
         context: context,
@@ -60,6 +63,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
       cookingTime: _cookingTimeController.text.isEmpty
           ? 'Unknown' // Default value if no cooking time is provided
           : _cookingTimeController.text,
+      photoUrl: _photoUrlController.text,
     );
 
     // Add the new recipe to the list of recipes
@@ -75,6 +79,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     _ingredientsController.dispose();
     _instructionsController.dispose();
     _cookingTimeController.dispose();
+    _photoUrlController.dispose();
     super.dispose();
   }
 
@@ -116,14 +121,14 @@ class _AddRecipesState extends State<AddRecipesScreen> {
             CustomInputContainer(
               labelText: 'Ingredients',
               controller: _ingredientsController,
-              height: 200,
+              height: 180,
             ),
 
             // Instructions input field (larger height)
             CustomInputContainer(
               labelText: 'Instructions',
               controller: _instructionsController,
-              height: 200,
+              height: 180,
             ),
 
             // Cooking time and category dropdown row
@@ -163,6 +168,16 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            // Photo URL input field
+            SingleChildScrollView(
+              //scrollDirection: Axis.horizontal,  // Make it scrollable horizontally if necessary
+              scrollDirection: Axis.vertical,
+              child: CustomInputContainer(
+                labelText: 'Photo URL',
+                controller: _photoUrlController,
               ),
             ),
 

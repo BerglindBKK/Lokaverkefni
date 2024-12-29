@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759906550726",
+    "project_id": "lokaverkefni-20205",
+    "storage_bucket": "lokaverkefni-20205.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759906550726:android:691176c18c7b4319ed28c7",
+        "android_client_info": {
+          "package_name": "com.example.lokaverkefni"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYkJK5bKr6-lTi5LBmO9gGXYmyahmE5Os"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
