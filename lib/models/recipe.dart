@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+//Recipe model.
+// Defines different food categories and icon for each category
+// Uses uuid() to generate unique ID for each recipe
+
+
+//creates unique IDs for each recipe
 const uuid = Uuid();
 
 // Defines the categories
@@ -15,7 +21,7 @@ const categoryIcons = {
   Category.dessert: Icons.work,
 };
 
-
+//defines recipe class. Each recipe is assigned a unique ID using UUID.v4()
 class Recipe {
   Recipe({
     required this.title,

@@ -7,13 +7,13 @@ class AddRecipesScreen extends StatefulWidget {
   const AddRecipesScreen({
     super.key,
     required this.onBack,
-    required this.title,
+    //required this.title,
     required this.onAddRecipe,
   });
 
   final void Function(Recipe recipe) onAddRecipe;
   final VoidCallback onBack; // onBack will switch to 'all-recipes' when called
-  final String title;
+  //final String title;
 
   @override
   State<AddRecipesScreen> createState() {

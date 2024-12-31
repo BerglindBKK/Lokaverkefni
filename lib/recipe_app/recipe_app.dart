@@ -5,6 +5,15 @@ import 'package:lokaverkefni/recipe_app/screens/all_recipes_screen.dart';
 import 'package:lokaverkefni/recipe_app/screens/welcome_screen.dart';
 import 'package:lokaverkefni/data/recipe_data.dart';
 
+// Main entry point for the recipe application.
+// Manages navigation and state, allowing users to switch between different screens:
+//   - 'welcome-screen' - 'all-recipes' - 'add-recipes'
+
+// - The `switchScreen` method is used to switch between different screens, while the `_addRecipe` method adds new recipes to the list.
+// - The app uses a `StatefulWidget` to manage state and handle screen changes dynamically.
+
+
+
 class RecipeApp extends StatefulWidget {
   const RecipeApp({super.key});
 
@@ -12,13 +21,19 @@ class RecipeApp extends StatefulWidget {
   State<RecipeApp> createState() => _RecipeAppState();
 }
 
+
 class _RecipeAppState extends State<RecipeApp> {
+  //activescreen keeps track of which screen is currently active, with "welcome screen" as default since the app starts there
   String activeScreen = 'welcome-screen';
+  //appbar title initialized as "Recipe App"
   String appBarTitle = "Recipe App";
 
+  // Maintains a list of registered recipes
   final List<Recipe> _registeredRecipes = RecipeData.registeredRecipes;
 
-  // Function to add a new recipe
+  // Function to add a new recipe to _registeredRecipes
+  // Takes newRecipe object as a parameter and adds it to the list
+  // State is used to update the UI
   void _addRecipe(Recipe newRecipe) {
     setState(() {
       _registeredRecipes.add(newRecipe);
@@ -26,6 +41,7 @@ class _RecipeAppState extends State<RecipeApp> {
   }
 
   // Function to switch between screens
+  // Takes screen as a parameter, state is used to rebuild the widget and update the screen
   void switchScreen(String screen) {
     setState(() {
       activeScreen = screen;
@@ -34,54 +50,40 @@ class _RecipeAppState extends State<RecipeApp> {
 
   @override
   Widget build(BuildContext context) {
+    // "screenWidget" will hold the widget to display based on the current screen.
     Widget screenWidget;
+    //Decides which screen to display based on "activescreen"
     switch (activeScreen) {
+      // If the current screen is 'all-recipes', display the AllRecipesScreen.
       case 'all-recipes':
         screenWidget = AllRecipesScreen(
+          // onBack callback switches back to "welcome-screen"
           onBack: () => switchScreen('welcome-screen'),
+          // Passes the list of registered recipes to the AllRecipesScreen to display.
           recipes: _registeredRecipes,
         );
-        appBarTitle = "All Recipes";
+        //appBarTitle = "þessi texti er í recipe_app.dart";
         break;
+      // If the current screen is 'add-recipes', display the AddRecipesScreen.
       case 'add-recipes':
         screenWidget = AddRecipesScreen(
+          // switches the screen back to the 'all-recipes' screen.
           onBack: () => switchScreen('all-recipes'),
-          title: appBarTitle,
-          onAddRecipe: _addRecipe,  // virkar ekki ennþá
+          // title: appBarTitle,
+          // Passes the '_addRecipe' function to add a new recipe.
+          onAddRecipe: _addRecipe,
         );
-        appBarTitle = "Add a Recipe";
+        //appBarTitle = "þessi texti er í recipe_app.dart";
         break;
       default:
         screenWidget = WelcomeScreen(onNavigate: switchScreen);
-        appBarTitle = "Welcome";
+        // appBarTitle = "þessi texti er í recipe_app.dart";
     }
 
     return MaterialApp(
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       home: Scaffold(
-        /*
-        appBar: AppBar(
-          flexibleSpace: Padding(
-            padding: const EdgeInsets.only(top: 48.0),
-            child: Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () => switchScreen('welcome-screen'),
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                Text(
-                  'Welcome',
-                  style: TextStyle(fontSize: 24, color: Colors.black),
-                ),
-              ],
-              //title: Text(appBarTitle),
-              //elevation: 10,
-              //shadowColor: Colors.black.withOpacity(0.5),
-            )
-          )
-        ),*/
         body: screenWidget,
       ),
     );

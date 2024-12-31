@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/widgets/recipes_list.dart';
 import 'package:lokaverkefni/models/recipe.dart';
+//import 'package:lokaverkefni/widgets/floating_action_button.dart';
 
 class AllRecipesScreen extends StatefulWidget {
   final List<Recipe> recipes;
@@ -55,7 +56,7 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
                 icon: const Icon(Icons.arrow_back_ios),
               ),
               Text(
-                'All Recipes',
+                'All Recipessdfsd',
                 style: TextStyle(fontSize: 24, color: Colors.black),
               ),
             ],
@@ -90,6 +91,7 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
           ),
         ],
       ),
+
     );
   }
 }
