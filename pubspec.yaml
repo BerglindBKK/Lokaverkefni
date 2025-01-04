@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  #image_picker: ^0.8.6 # or the latest version
   #firebase_core: ^2.12.0  # Ensure you have the latest version
   #firebase_storage: ^11.0.5 # Firebase Storage package
   #imagepicker: eyða eftirfarandi línum ef allt fer í rugl
@@ -38,7 +37,7 @@ dependencies:
   #path_provider: ^2.0.11 # For finding the correct path to store the image locally
   #path: ^1.8.0 # Helps with file path manipulations
 
-
+  #image_picker: ^0.8.6 # or the latest version
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8

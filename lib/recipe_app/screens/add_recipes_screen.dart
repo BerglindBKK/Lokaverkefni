@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
 import 'package:lokaverkefni/widgets/custom_input_container.dart';
-//import 'dart:io';
 
+// Screen that allows the user to add a new recipe
 class AddRecipesScreen extends StatefulWidget {
   const AddRecipesScreen({
     super.key,
+    // Callback to switch back to the previous screen
     required this.onBack,
-    //required this.title,
+    // Callback to add the new recipe
     required this.onAddRecipe,
   });
 
+  // Function that adds recipe to the list
   final void Function(Recipe recipe) onAddRecipe;
-  final VoidCallback onBack; // onBack will switch to 'all-recipes' when called
-  //final String title;
+  // Function to navigate back to the previous screen
+  final VoidCallback onBack;
 
   @override
   State<AddRecipesScreen> createState() {
@@ -22,15 +24,17 @@ class AddRecipesScreen extends StatefulWidget {
 }
 
 class _AddRecipesState extends State<AddRecipesScreen> {
+  // Controllers for the input fields, used to get text input from the user
   final _titleController = TextEditingController();
   final _ingredientsController = TextEditingController();
   final _instructionsController = TextEditingController();
   final _cookingTimeController = TextEditingController();
   final _photoUrlController = TextEditingController();
-  Category _selectedCategory = Category.dessert;
+  Category _selectedCategory = Category.dessert; //default category
 
   // Function to submit the recipe data
   void _submitRecipeData() {
+    // Checks if fields are empty
     if (_titleController.text.trim().isEmpty ||
         _ingredientsController.text.trim().isEmpty ||
         _instructionsController.text.trim().isEmpty ||
@@ -70,9 +74,10 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     widget.onAddRecipe(newRecipe);
 
     // Switch to the 'all-recipes' screen after saving
-    widget.onBack(); // This will switch the screen to 'all-recipes'
+    widget.onBack(); // This will switch the screen to 'all-recipes' (previous screen)
   }
 
+  // Dispose of the controllers when the screen is destroyed to free memory
   @override
   void dispose() {
     _titleController.dispose();
@@ -90,9 +95,9 @@ class _AddRecipesState extends State<AddRecipesScreen> {
         flexibleSpace: Padding(
           padding: const EdgeInsets.only(top: 48.0, left: 16),
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
+                // Back button to navigate to the previous screen
                 onPressed: widget.onBack,
                 icon: const Icon(Icons.arrow_back_ios),
               ),
@@ -139,7 +144,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                   // Cooking Time Input
                   Expanded(
                     child: CustomInputContainer(
-                      labelText: 'Cooking Time (min)',  // "min" is part of the label
+                      labelText: 'Cooking Time (min)',
                       controller: _cookingTimeController,
                     ),
                   ),
@@ -156,11 +161,12 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                           child: Text(category.name), // Display the category name as is
                         ),
                       )
-                          .toList(),
+                          .toList(), //converts dropdown menu to list
                       onChanged: (value) {
                         if (value == null) {
                           return;
                         }
+                        //updates the selected category
                         setState(() {
                           _selectedCategory = value;
                         });
@@ -173,7 +179,6 @@ class _AddRecipesState extends State<AddRecipesScreen> {
 
             // Photo URL input field
             SingleChildScrollView(
-              //scrollDirection: Axis.horizontal,  // Make it scrollable horizontally if necessary
               scrollDirection: Axis.vertical,
               child: CustomInputContainer(
                 labelText: 'Photo URL',
@@ -182,11 +187,12 @@ class _AddRecipesState extends State<AddRecipesScreen> {
               ),
             ),
 
-            // Save Button
+            // Save Button, submits the recipe data and navigates back to All recipes
             ElevatedButton(
               onPressed: () {
-                _submitRecipeData(); //  save the recipe
-                widget.onBack(); // This will switch to the "All Recipes" screen
+                //!!!! Todo; bara navigeita til baka ef notandi fyllir inn uppskrift!
+                _submitRecipeData();
+                widget.onBack();
               },
               child: const Text('Save'),
             )
