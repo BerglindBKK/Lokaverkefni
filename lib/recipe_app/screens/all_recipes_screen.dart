@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lokaverkefni/widgets/recipes_list.dart';
 import 'package:lokaverkefni/models/recipe.dart';
 
-// This is the screen where all the recipes are displayed.
 class AllRecipesScreen extends StatefulWidget {
   final List<Recipe> recipes; // List of recipes passed from previous screen
   final VoidCallback onBack; // Callback to go back to the previous screen
+  final Function(String) onNavigate; // Callback to switch between screens
 
   const AllRecipesScreen({
     super.key,
     required this.recipes, // List of recipes
     required this.onBack,   // Callback function for the back action
+    required this.onNavigate, // Function to navigate to different screens
   });
 
   @override
@@ -74,18 +75,34 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
         children: [
           // Search bar that allows the user to search for recipes
           Padding(
-            padding: const EdgeInsets.all(8.0), // Padding for the search bar
-            child: TextField(
-              // This method gets called every time the user types something
-              onChanged: (String newQuery) {
-                setState(() {
-                  query = newQuery;  // Update the query as the user types
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Search recipes...', // Placeholder text in the search field
-                prefixIcon: const Icon(Icons.search), // Add a search icon inside the input field
-                border: OutlineInputBorder(), // Add a border to the search field
+            padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 8),  // Padding for the search bar
+            child: Container(
+              width: double.infinity,  // Make the search bar the same width as recipe cards
+              height: 55,  // Set height of the search bar
+              decoration: BoxDecoration(
+                color: Color(0xFFF1F1F1),  // Light grey background
+                borderRadius: BorderRadius.circular(48),  // Rounded corners
+              ),
+              child: TextField(
+                onChanged: (String newQuery) {
+                  setState(() {
+                    query = newQuery;  // Update the query as the user types
+                  });
+                },
+                textAlign: TextAlign.center,  // Center the text and placeholder inside the field
+                decoration: InputDecoration(
+                  hintText: 'Search recipes...',  // Placeholder text in the search field
+                  hintStyle: TextStyle(color: Color(0xFFA5A5A5)),  // Set the color of the placeholder text
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 12.0),  // Adjust icon padding so it stays centered
+                    child: Icon(
+                      Icons.search,  // Search icon
+                      color: Color(0xFFA5A5A5),  // Set the color of the icon
+                    ),
+                  ),
+                  border: InputBorder.none,  // Remove the default border
+                  contentPadding: const EdgeInsets.symmetric(vertical: 15),  // Center the content vertically
+                ),
               ),
             ),
           ),
@@ -100,6 +117,18 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
           ),
         ],
       ),
+
+      // Floating Action Button to navigate to Add Recipes Screen
+      floatingActionButton: FloatingActionButton(
+        elevation: 5.0,
+        onPressed: () => widget.onNavigate('add-recipes'), // Use the onNavigate callback
+        backgroundColor: Colors.white,  // Set the background color to white
+        child: const Icon(
+          Icons.add,  // Icon inside the button
+          color: Colors.black,  // Set the icon color to black so it stands out against the white background
+        ),
+      ),
+
     );
   }
 }

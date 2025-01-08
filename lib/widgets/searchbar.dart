@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
 
-// SearchBarApp widget to display a search bar and list of recipes filtered by query.
+// SearchBarApp widget to display a search bar and filter recipes by query.
 class SearchBarApp extends StatefulWidget {
-  final List<Recipe> recipes; // Accept recipes list
+  final List<Recipe> recipes;  // List of recipes to search through.
 
   const SearchBarApp({super.key, required this.recipes});
 
@@ -12,41 +12,51 @@ class SearchBarApp extends StatefulWidget {
 }
 
 class _SearchBarAppState extends State<SearchBarApp> {
-  String query = "";  // Store the search input
+  String query = "";  // Store the search input.
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),  // Add padding around the entire column.
       child: Column(
         children: [
-          // Search bar at the top
-          TextField(
-            onChanged: (String newQuery) {
-              setState(() {
-                query = newQuery;  // Update the query when user types
-              });
-            },
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              hintText: 'Search...',
-              border: OutlineInputBorder(),
+          // Search bar where the user types the query.
+          Container(
+            width: double.infinity,  // Make search bar the same width as recipe cards.
+            height: 55,  // Set height of search bar.
+            decoration: BoxDecoration(
+              color: Color(0xFFF1F1F1),  // Light gray background.
+              borderRadius: BorderRadius.circular(48),  // Rounded corners.
+            ),
+            child: TextField(
+              onChanged: (String newQuery) {
+                setState(() {
+                  query = newQuery;  // Update query when user types.
+                });
+              },
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search, color: Colors.black38),  // Search icon.
+                hintText: 'Search...',  // Placeholder text.
+                hintStyle: TextStyle(color: Colors.black38),  // Hint text color.
+                border: InputBorder.none,  // No border around text field.
+                contentPadding: const EdgeInsets.symmetric(vertical: 15),  // Padding inside the text field.
+              ),
             ),
           ),
 
-          // Suggestions list
+          // Display filtered search results.
           Expanded(
             child: ListView(
               children: _getFilteredSearchTerms(query).map((term) {
                 return ListTile(
-                  title: Text(term),
+                  title: Text(term),  // Display each suggestion.
                   onTap: () {
                     setState(() {
-                      query = term; // Update query when a suggestion is tapped
+                      query = term;  // Update query when a suggestion is tapped.
                     });
                   },
                 );
-              }).toList(),
+              }).toList(),  // Convert filtered results to a list of widgets.
             ),
           ),
         ],
@@ -54,11 +64,11 @@ class _SearchBarAppState extends State<SearchBarApp> {
     );
   }
 
-  // Function to filter search terms based on the query
+  // Function to filter recipes based on the query.
   List<String> _getFilteredSearchTerms(String query) {
-    return widget.recipes  // Use the list passed to SearchBarApp
-        .map((recipe) => recipe.title)  // Assuming you want to search by recipe title
-        .where((term) => term.toLowerCase().contains(query.toLowerCase())) // Filter by query
-        .toList();
+    return widget.recipes
+        .map((recipe) => recipe.title)  // Get recipe titles.
+        .where((term) => term.toLowerCase().contains(query.toLowerCase()))  // Filter by query.
+        .toList();  // Return filtered list.
   }
 }
