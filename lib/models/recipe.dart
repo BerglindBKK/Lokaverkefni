@@ -12,13 +12,14 @@ const uuid = Uuid();
 enum Category { meat, fish, pasta, salad, dessert }
 
 // Defines icons for each category
+/*
 const categoryIcons = {
   Category.meat: Icons.lunch_dining,
   Category.fish: Icons.flight_takeoff,
   Category.pasta: Icons.movie,
   Category.salad: Icons.work,
   Category.dessert: Icons.work,
-};
+}; */
 
 //defines recipe class. Each recipe is assigned a unique ID using UUID.v4()
 class Recipe {

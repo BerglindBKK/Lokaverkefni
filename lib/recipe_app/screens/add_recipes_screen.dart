@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Required for input formatters
 import 'package:lokaverkefni/models/recipe.dart';
 import 'package:lokaverkefni/widgets/custom_input_container.dart'; // Import custom input container
 import 'package:lokaverkefni/colors.dart'; // Import the colors file for category color management
@@ -27,42 +28,32 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   final _instructionsController = TextEditingController();
   final _cookingTimeController = TextEditingController();
   final _photoUrlController = TextEditingController();
-  Category _selectedCategory = Category
-      .dessert; // Default selected category is 'dessert'
+  Category _selectedCategory = Category.dessert; // Default selected category is 'dessert'
 
   // Function to handle submitting the recipe data
   void _submitRecipeData() {
     // Check if any of the required fields are empty
-    if (_titleController.text
-        .trim()
-        .isEmpty ||
-        _ingredientsController.text
-            .trim()
-            .isEmpty ||
-        _instructionsController.text
-            .trim()
-            .isEmpty ||
-        _photoUrlController.text
-            .trim()
-            .isEmpty) {
+    if (_titleController.text.trim().isEmpty ||
+        _ingredientsController.text.trim().isEmpty ||
+        _instructionsController.text.trim().isEmpty ||
+        _photoUrlController.text.trim().isEmpty) {
       // If some fields are empty, show an error dialog
       showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text('Error'),
-              // Error message
-              content: const Text('All fields must be filled out!'),
-              // Warning message
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx); // Close the dialog
-                  },
-                  child: const Text('OK'), // Button to close the dialog
-                ),
-              ],
+        builder: (ctx) => AlertDialog(
+          title: const Text('Error'),
+          // Error message
+          content: const Text('All fields must be filled out!'),
+          // Warning message
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx); // Close the dialog
+              },
+              child: const Text('OK'), // Button to close the dialog
             ),
+          ],
+        ),
       );
       return; // Don't proceed further if fields are empty
     }
@@ -154,7 +145,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                   children: [
                     // Title input field
                     CustomInputContainer(
-                      labelText: 'Recipeöíá Title',
+                      labelText: 'Recipe Title',
                       controller: _titleController,
                     ),
 
@@ -163,11 +154,12 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         children: [
-                          // Cooking Time Input
+                          // Cooking Time Input (numbers only)
                           Expanded(
                             child: CustomInputContainer(
                               labelText: 'Cooking Time (min)',
                               controller: _cookingTimeController,
+                              isNumberField: true, // Restrict input to numbers only
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -179,50 +171,44 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                               // Currently selected category
                               items: Category.values
                                   .map(
-                                    (category) =>
-                                    DropdownMenuItem<Category>(
-                                      value: category,
-                                      child: Row(
-                                        children: [
-                                          // Show a colored circle for the category
-                                          Container(
-                                            width: 20,
-                                            height: 20,
-                                            decoration: BoxDecoration(
-                                              color: _getCategoryColor(
-                                                  category),
-                                              // Color for the category
-                                              shape: BoxShape
-                                                  .circle, // Make it circular
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          // Display the category name with text style
-                                          Text(
-                                            category.name,
-                                            style: TextStyle(
-                                              color: Theme
-                                                  .of(context)
-                                                  .colorScheme
-                                                  .onSurface
-                                                  .withOpacity(0.6),
-                                              // Matching text color
-                                              fontSize: 16,
-                                              fontWeight: FontWeight
-                                                  .w500, // Matching font weight
-                                            ),
-                                          ),
-                                        ],
+                                    (category) => DropdownMenuItem<Category>(
+                                  value: category,
+                                  child: Row(
+                                    children: [
+                                      // Show a colored circle for the category
+                                      Container(
+                                        width: 20,
+                                        height: 20,
+                                        decoration: BoxDecoration(
+                                          color: _getCategoryColor(category),
+                                          // Color for the category
+                                          shape: BoxShape.circle, // Make it circular
+                                        ),
                                       ),
-                                    ),
+                                      const SizedBox(width: 10),
+                                      // Display the category name with text style
+                                      Text(
+                                        category.name,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withOpacity(0.6),
+                                          // Matching text color
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500, // Matching font weight
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               )
                                   .toList(),
                               onChanged: (value) {
                                 if (value == null)
                                   return; // No change if the value is null
                                 setState(() {
-                                  _selectedCategory =
-                                      value; // Update the selected category
+                                  _selectedCategory = value; // Update the selected category
                                 });
                               },
                             ),
@@ -233,9 +219,10 @@ class _AddRecipesState extends State<AddRecipesScreen> {
 
                     // Ingredients input field (larger height)
                     CustomInputContainer(
-                      labelText: 'Ingredients öðáæ',
+                      labelText: 'Ingredients',
                       controller: _ingredientsController,
                       height: 180,
+                      isNumberField: false, // It should allow text and numbers
                     ),
 
                     // Instructions input field (larger height)
@@ -243,6 +230,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                       labelText: 'Instructions',
                       controller: _instructionsController,
                       height: 180,
+                      isNumberField: false, // It should allow text and numbers
                     ),
 
                     // Photo URL input field
@@ -259,8 +247,8 @@ class _AddRecipesState extends State<AddRecipesScreen> {
                       // Submit the recipe data when clicked
                       child: const Text('Save Recipe'),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        textStyle: const TextStyle(fontSize: 18),
+                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+                        textStyle: const TextStyle(fontSize: 14),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -297,8 +285,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
   Color _getCategoryColor(Category category) {
     switch (category) {
       case Category.meat:
-        return AppColors
-            .meat; // Return the 'meat' color from the AppColors class
+        return AppColors.meat; // Return the 'meat' color from the AppColors class
       case Category.fish:
         return AppColors.fish; // Return the 'fish' color
       case Category.pasta:

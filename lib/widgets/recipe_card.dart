@@ -86,8 +86,8 @@ class RecipeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   child: Image.asset(
                     _getCategoryDefaultImage(recipe.category), // Display default image
-                    width: 120,
-                    height: 120,
+                    width: 130,
+                    height: 130,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -116,18 +116,18 @@ class RecipeCard extends StatelessWidget {
                           ),
                           const Spacer(),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                             decoration: BoxDecoration(
                               color: _getCategoryColor(recipe.category),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                Icon(
+                                /*Icon(
                                   categoryIcons[recipe.category],
                                   color: Colors.white,
                                   size: 16,
-                                ),
+                                ),*/
                                 const SizedBox(width: 4),
                                 Text(
                                   recipe.category.toString().split('.').last,
