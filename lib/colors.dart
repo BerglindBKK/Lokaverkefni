@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+class AppColors {
+  static const Color meat = Color(0xFFF06292); // Pink
+  static const Color fish = Color(0xFF81C784); // Green
+  static const Color pasta = Color(0xFF64B5F6); // Blue
+  static const Color salad = Color(0xFFFFB74D); // Orange
+  static const Color dessert = Color(0xFF9575CD); // Purple
+
+// Add more colors as needed
+}
+
 const Color lightRed = Color.fromARGB(255, 255, 87, 87);
 const Color lightRedOp = Color.fromARGB(100, 255, 87, 87);
 const Color lightYellow = Color.fromARGB(255,255, 176, 31);

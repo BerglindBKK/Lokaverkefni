@@ -10,6 +10,7 @@ class RecipeData {
       instructions: 'mix and cool',
       cookingTime: '40min',
       category: Category.dessert,
+      imagePath: 'assets/images/raekjur.jpg'
     ),
     Recipe(
       title: 'Rblabla',

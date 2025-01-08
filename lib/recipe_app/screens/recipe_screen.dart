@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
-
-//Recipescreen widget, requires the Recipe class
-//Displays the whole recipe, including a photo (a default photo if user did not select a photo)
+import 'package:lokaverkefni/colors.dart'; // Import the colors file
+import 'package:lokaverkefni/widgets/big_recipe_card.dart'; // Import the BigRecipeCard widget
+import 'package:lokaverkefni/recipe_app/screens/all_recipes_screen.dart'; // Import AllRecipesScreen
 
 class RecipeScreen extends StatelessWidget {
   final Recipe recipe;
@@ -12,62 +12,95 @@ class RecipeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appbar
-      appBar: AppBar(
-        title: const Text('Recipe Details'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            // Display Recipe Title
-            Text(
-              recipe.title ?? 'No Title',
+      body: Column(
+        children: [
+          // Photo Section (placed above the recipe card)
+          recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
+              ? ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(0),
+              topRight: Radius.circular(0),
             ),
-            const SizedBox(height: 16),
-
-            // Displays the users photo or a default photo if user does not provide one
-            recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
-                ? Image.network(
+            child: Image.network(
               recipe.photoUrl!,
               width: double.infinity,
-              height: 200,
+              height: 300, // Adjust the height of the photo
               fit: BoxFit.cover,
-            )
-                //uses a default photo if user does not provide one
-                : Image.asset(
-              'assets/images/default_meat.png',
+            ),
+          )
+              : ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(0),
+              topRight: Radius.circular(0),
+            ),
+            child: Image.asset(
+              'assets/images/raekjur.jpg',
               width: double.infinity,
-              height: 200,
+              height: 300, // Adjust the height of the photo
               fit: BoxFit.cover,
             ),
+          ),
 
-            const SizedBox(height: 16),
-
-            // Displays cooking Time
-            Row(
-              children: [
-                const Icon(Icons.timer, color: Colors.orange),
-                const SizedBox(width: 8),
-                Text('Cooking Time: ${recipe.cookingTime ?? 'Unknown'}'),
-              ],
+          // Recipe Card Section (this fills the remaining space under the photo)
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(48),
+                  topRight: Radius.circular(48),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    spreadRadius: 2,
+                  ),
+                ],
+              ),
+              child: BigRecipeCard(recipe: recipe), // Use BigRecipeCard widget
             ),
-            const SizedBox(height: 16),
+          ),
+        ],
+      ),
 
-            // Displays recipe Ingredients
-            Text(
-              'Ingredients:',
+      // Floating Action Buttons
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: Stack(
+        children: [
+          // Back Button (to navigate back to AllRecipesScreen)
+          Positioned(
+            top: 16,
+            left: 4, // Ensure padding on the left side
+            child: Opacity(
+              opacity: 0.75, // Set the opacity for the entire button (0.0 to 1.0)
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pop(context); // Navigate back to AllRecipesScreen
+                },
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.arrow_back, color: Colors.black),
+              ),
             ),
-            Text(recipe.ingredients ?? 'No ingredients'),
-            const SizedBox(height: 16),
+          ),
 
-            // Display recipe instructions
-            Text(
-              'Instructions:',
+// Favorite Button (Heart button)
+          Positioned(
+            top: 16,
+            right: 32, // Ensure padding on the right side
+            child: Opacity(
+              opacity: 0.75, // Set the opacity for the entire button (0.0 to 1.0)
+              child: FloatingActionButton(
+                onPressed: () {
+                  // Your favorite action goes here
+                },
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.favorite, color: Colors.red),
+              ),
             ),
-            Text(recipe.instructions ?? 'No instructions'),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

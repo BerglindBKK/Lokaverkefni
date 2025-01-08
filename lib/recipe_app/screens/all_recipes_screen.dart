@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lokaverkefni/widgets/recipes_list.dart';
 import 'package:lokaverkefni/models/recipe.dart';
 //import 'package:lokaverkefni/widgets/floating_action_button.dart';
+//import 'package:lokaverkefni/widgets/floating_action_button.dart';
 
 class AllRecipesScreen extends StatefulWidget {
   final List<Recipe> recipes;
@@ -91,7 +92,6 @@ class _AllRecipesScreenState extends State<AllRecipesScreen> {
           ),
         ],
       ),
-
     );
   }
 }

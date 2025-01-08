@@ -114,7 +114,6 @@ class _AddRecipesState extends State<AddRecipesScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            //white space
             const SizedBox(height: 20),
 
             // Title input field
@@ -193,7 +192,7 @@ class _AddRecipesState extends State<AddRecipesScreen> {
               onPressed: () {
                 //!!!! Todo; bara navigeita til baka ef notandi fyllir inn uppskrift!
                 _submitRecipeData();
-                //widget.onBack(); redundant, _submit.. already handles the navigation
+                widget.onBack();
               },
               child: const Text('Save'),
             )

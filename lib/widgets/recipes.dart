@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
+import 'package:lokaverkefni/widgets/searchbar.dart';  // Import SearchBarApp
 import 'package:lokaverkefni/widgets/recipes_list.dart';
 import 'package:lokaverkefni/recipe_app/screens/add_recipes_screen.dart';
 
@@ -13,6 +14,7 @@ class Recipes extends StatefulWidget {
 }
 
 class _RecipeState extends State<Recipes> {
+  // Sample list of recipes
   final List<Recipe> _registeredRecipes = [
     Recipe(
       title: 'Rice crispies cookies',
@@ -48,11 +50,19 @@ class _RecipeState extends State<Recipes> {
       appBar: AppBar(
         title: const Text('Recipes'),
       ),
-      body: _registeredRecipes.isEmpty
-          ? const Center(child: Text('No recipes available.'))
-          : RecipesList(
-        recipes: _registeredRecipes,
-        onDeleteRecipe: _deleteRecipe,  // Pass delete handler
+      body: Column(
+        children: [
+          // Add the SearchBarApp widget here, passing the list of recipes
+          SearchBarApp(recipes: _registeredRecipes), // Pass the recipes list to SearchBarApp
+
+          // Display recipes
+          _registeredRecipes.isEmpty
+              ? const Center(child: Text('No recipes available.'))
+              : RecipesList(
+            recipes: _registeredRecipes,
+            onDeleteRecipe: _deleteRecipe,  // Pass delete handler
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -65,7 +75,7 @@ class _RecipeState extends State<Recipes> {
                   Navigator.pop(ctx);  // Go back to the previous screen
                 },
                 onAddRecipe: _addRecipe,
-                title: 'Add Recipe',
+                //title: 'Add Recipe',
               ),
             ),
           );
