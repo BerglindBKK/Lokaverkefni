@@ -12,43 +12,52 @@ class RecipeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          // Photo Section (placed above the recipe card)
-          recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
-              ? ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-            ),
-            child: Image.network(
-              recipe.photoUrl!,
-              width: double.infinity,
-              height: 300, // Adjust the height of the photo
-              fit: BoxFit.cover,
-            ),
-          )
-              : ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-            ),
-            child: Image.asset(
-              'assets/images/raekjur.jpg',
-              width: double.infinity,
-              height: 300, // Adjust the height of the photo
-              fit: BoxFit.cover,
+          // Photo Section (this is the background image behind the recipe card)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: recipe.photoUrl != null && recipe.photoUrl!.isNotEmpty
+                ? ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(0), // Matching the recipe card rounded corners
+                topRight: Radius.circular(0),
+              ),
+              child: Image.network(
+                recipe.photoUrl!,
+                width: double.infinity,
+                height: 300, // Adjust the height of the photo
+                fit: BoxFit.cover,
+              ),
+            )
+                : ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(0), // Matching the recipe card rounded corners
+                topRight: Radius.circular(0),
+              ),
+              child: Image.asset(
+                'assets/images/raekjur.jpg',
+                width: double.infinity,
+                height: 300, // Adjust the height of the photo
+                fit: BoxFit.cover,
+              ),
             ),
           ),
 
-          // Recipe Card Section (this fills the remaining space under the photo)
-          Expanded(
+          // Recipe Card Section (this is the card with recipe details)
+          Positioned(
+            top: 250, // Position the recipe card below the photo (it will overlap)
+            left: 0,
+            right: 0,
+            bottom: 0, // Ensure it takes the remaining space
             child: Container(
               padding: const EdgeInsets.all(0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(48),
+                  topLeft: Radius.circular(48), // Rounded corners for the top
                   topRight: Radius.circular(48),
                 ),
                 boxShadow: [
@@ -85,7 +94,7 @@ class RecipeScreen extends StatelessWidget {
             ),
           ),
 
-// Favorite Button (Heart button)
+          // Favorite Button (Heart button)
           Positioned(
             top: 16,
             right: 32, // Ensure padding on the right side

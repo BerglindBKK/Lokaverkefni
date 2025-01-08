@@ -1,83 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:lokaverkefni/models/recipe.dart';
-import 'package:lokaverkefni/widgets/custom_input_container.dart';
+import 'package:lokaverkefni/widgets/custom_input_container.dart'; // Import custom input container
+import 'package:lokaverkefni/colors.dart'; // Import the colors file for category color management
 
-// Screen that allows the user to add a new recipe
+// This is the AddRecipesScreen where users can add a new recipe.
 class AddRecipesScreen extends StatefulWidget {
   const AddRecipesScreen({
     super.key,
-    // Callback to switch back to the previous screen
-    required this.onBack,
-    // Callback to add the new recipe
-    required this.onAddRecipe,
+    required this.onBack,  // Callback to navigate back to previous screen
+    required this.onAddRecipe,  // Callback to add the new recipe
   });
 
-  // Function that adds recipe to the list
-  final void Function(Recipe recipe) onAddRecipe;
-  // Function to navigate back to the previous screen
-  final VoidCallback onBack;
+  final void Function(Recipe recipe) onAddRecipe; // Function to add the recipe to the list
+  final VoidCallback onBack;  // Function to navigate back
 
   @override
   State<AddRecipesScreen> createState() {
-    return _AddRecipesState();
+    return _AddRecipesState(); // Creates the state for this screen
   }
 }
 
 class _AddRecipesState extends State<AddRecipesScreen> {
-  // Controllers for the input fields, used to get text input from the user
+  // Controllers to capture user input in the text fields
   final _titleController = TextEditingController();
   final _ingredientsController = TextEditingController();
   final _instructionsController = TextEditingController();
   final _cookingTimeController = TextEditingController();
   final _photoUrlController = TextEditingController();
-  Category _selectedCategory = Category.dessert; //default category
+  Category _selectedCategory = Category
+      .dessert; // Default selected category is 'dessert'
 
-  // Function to submit the recipe data
+  // Function to handle submitting the recipe data
   void _submitRecipeData() {
-    // Checks if fields are empty
-    if (_titleController.text.trim().isEmpty ||
-        _ingredientsController.text.trim().isEmpty ||
-        _instructionsController.text.trim().isEmpty ||
-        _photoUrlController.text.trim().isEmpty) {
-      // If any of the fields are empty, show an alert dialog
+    // Check if any of the required fields are empty
+    if (_titleController.text
+        .trim()
+        .isEmpty ||
+        _ingredientsController.text
+            .trim()
+            .isEmpty ||
+        _instructionsController.text
+            .trim()
+            .isEmpty ||
+        _photoUrlController.text
+            .trim()
+            .isEmpty) {
+      // If some fields are empty, show an error dialog
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text('All fields must be filled out!'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx); // Close the dialog
-              },
-              child: const Text('OK'),
+        builder: (ctx) =>
+            AlertDialog(
+              title: const Text('Error'),
+              // Error message
+              content: const Text('All fields must be filled out!'),
+              // Warning message
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx); // Close the dialog
+                  },
+                  child: const Text('OK'), // Button to close the dialog
+                ),
+              ],
             ),
-          ],
-        ),
       );
-      return;
+      return; // Don't proceed further if fields are empty
     }
 
-    // Create the new recipe object
+    // Create a new Recipe object with the data entered by the user
     Recipe newRecipe = Recipe(
       title: _titleController.text,
       ingredients: _ingredientsController.text,
       instructions: _instructionsController.text,
       category: _selectedCategory,
       cookingTime: _cookingTimeController.text.isEmpty
-          ? 'Unknown' // Default value if no cooking time is provided
+          ? 'Unknown' // Default cooking time if the user leaves it empty
           : _cookingTimeController.text,
       photoUrl: _photoUrlController.text,
     );
 
-    // Add the new recipe to the list of recipes
+    // Call the onAddRecipe function to save the new recipe
     widget.onAddRecipe(newRecipe);
 
-    // Switch to the 'all-recipes' screen after saving
-    widget.onBack(); // This will switch the screen to 'all-recipes' (previous screen)
+    // Navigate back to the previous screen after adding the recipe
+    widget.onBack();
   }
 
-  // Dispose of the controllers when the screen is destroyed to free memory
+  // Dispose of controllers when the screen is destroyed to free up memory
   @override
   void dispose() {
     _titleController.dispose();
@@ -85,121 +94,221 @@ class _AddRecipesState extends State<AddRecipesScreen> {
     _instructionsController.dispose();
     _cookingTimeController.dispose();
     _photoUrlController.dispose();
-    super.dispose();
+    super.dispose(); // Call the superclass's dispose method
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: Padding(
-          padding: const EdgeInsets.only(top: 48.0, left: 16),
-          child: Row(
-            children: [
-              IconButton(
-                // Back button to navigate to the previous screen
-                onPressed: widget.onBack,
-                icon: const Icon(Icons.arrow_back_ios),
-              ),
-              Text(
-                'Add recipes',
-                style: TextStyle(fontSize: 24, color: Colors.black),
-              ),
-            ],
+      body: Column(
+        children: [
+          // Photo Section (placed above the recipe form)
+          _photoUrlController.text.isNotEmpty
+              ? ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(0),
+              topRight: Radius.circular(0),
+            ),
+            child: Image.network(
+              _photoUrlController.text, // Show the image from the URL
+              width: double.infinity,
+              height: 300, // Adjust height for the photo
+              fit: BoxFit.cover, // Make the image cover the space
+            ),
+          )
+              : ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(0),
+              topRight: Radius.circular(0),
+            ),
+            child: Image.asset(
+              'assets/images/raekjur.jpg',
+              // Default image if no URL is provided
+              width: double.infinity,
+              height: 300, // Same height for default image
+              fit: BoxFit.cover, // Cover the space with the image
+            ),
           ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            //white space
-            const SizedBox(height: 20),
 
-            // Title input field
-            CustomInputContainer(
-              labelText: 'Recipe Title',
-              controller: _titleController,
-            ),
-
-            // Ingredients input field (larger height)
-            CustomInputContainer(
-              labelText: 'Ingredients',
-              controller: _ingredientsController,
-              height: 180,
-            ),
-
-            // Instructions input field (larger height)
-            CustomInputContainer(
-              labelText: 'Instructions',
-              controller: _instructionsController,
-              height: 180,
-            ),
-
-            // Cooking time and category dropdown row
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              child: Row(
-                children: [
-                  // Cooking Time Input
-                  Expanded(
-                    child: CustomInputContainer(
-                      labelText: 'Cooking Time (min)',
-                      controller: _cookingTimeController,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-
-                  // Category Dropdown
-                  Expanded(
-                    child: DropdownButton<Category>(
-                      value: _selectedCategory,
-                      items: Category.values
-                          .map(
-                            (category) => DropdownMenuItem<Category>(
-                          value: category,
-                          child: Text(category.name), // Display the category name as is
-                        ),
-                      )
-                          .toList(), //converts dropdown menu to list
-                      onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-                        //updates the selected category
-                        setState(() {
-                          _selectedCategory = value;
-                        });
-                      },
-                    ),
+          // Recipe Form Section (below the photo)
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                // Light grey background for the form container
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(48),
+                  topRight: Radius.circular(48),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1), // Light shadow effect
+                    blurRadius: 8,
+                    spreadRadius: 2,
                   ),
                 ],
               ),
-            ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // Title input field
+                    CustomInputContainer(
+                      labelText: 'Recipeöíá Title',
+                      controller: _titleController,
+                    ),
 
-            // Photo URL input field
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: CustomInputContainer(
-                labelText: 'Photo URL',
-                controller: _photoUrlController,
-                height: 50,
+                    // Cooking Time and Category dropdown
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: [
+                          // Cooking Time Input
+                          Expanded(
+                            child: CustomInputContainer(
+                              labelText: 'Cooking Time (min)',
+                              controller: _cookingTimeController,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+
+                          // Category Dropdown
+                          Expanded(
+                            child: DropdownButton<Category>(
+                              value: _selectedCategory,
+                              // Currently selected category
+                              items: Category.values
+                                  .map(
+                                    (category) =>
+                                    DropdownMenuItem<Category>(
+                                      value: category,
+                                      child: Row(
+                                        children: [
+                                          // Show a colored circle for the category
+                                          Container(
+                                            width: 20,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                              color: _getCategoryColor(
+                                                  category),
+                                              // Color for the category
+                                              shape: BoxShape
+                                                  .circle, // Make it circular
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          // Display the category name with text style
+                                          Text(
+                                            category.name,
+                                            style: TextStyle(
+                                              color: Theme
+                                                  .of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withOpacity(0.6),
+                                              // Matching text color
+                                              fontSize: 16,
+                                              fontWeight: FontWeight
+                                                  .w500, // Matching font weight
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                              )
+                                  .toList(),
+                              onChanged: (value) {
+                                if (value == null)
+                                  return; // No change if the value is null
+                                setState(() {
+                                  _selectedCategory =
+                                      value; // Update the selected category
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Ingredients input field (larger height)
+                    CustomInputContainer(
+                      labelText: 'Ingredients öðáæ',
+                      controller: _ingredientsController,
+                      height: 180,
+                    ),
+
+                    // Instructions input field (larger height)
+                    CustomInputContainer(
+                      labelText: 'Instructions',
+                      controller: _instructionsController,
+                      height: 180,
+                    ),
+
+                    // Photo URL input field
+                    CustomInputContainer(
+                      labelText: 'Photo URL',
+                      controller: _photoUrlController,
+                      height: 50,
+                    ),
+
+                    // Save Button
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _submitRecipeData,
+                      // Submit the recipe data when clicked
+                      child: const Text('Save Recipe'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        textStyle: const TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
+          ),
+        ],
+      ),
 
-            // Save Button, submits the recipe data and navigates back to All recipes
-            ElevatedButton(
-              onPressed: () {
-                //!!!! Todo; bara navigeita til baka ef notandi fyllir inn uppskrift!
-                _submitRecipeData();
-                //widget.onBack(); redundant, _submit.. already handles the navigation
-              },
-              child: const Text('Save'),
-            )
-          ],
-        ),
+      // Floating action button (back button)
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: Stack(
+        children: [
+          Positioned(
+            top: 16,
+            left: 4,
+            child: Opacity(
+              opacity: 0.75,
+              child: FloatingActionButton(
+                onPressed: widget.onBack, // Go back when this button is pressed
+                backgroundColor: Colors.white,
+                child: const Icon(Icons.arrow_back, color: Colors.black),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  // Function to get the category color based on the selected category
+  Color _getCategoryColor(Category category) {
+    switch (category) {
+      case Category.meat:
+        return AppColors
+            .meat; // Return the 'meat' color from the AppColors class
+      case Category.fish:
+        return AppColors.fish; // Return the 'fish' color
+      case Category.pasta:
+        return AppColors.pasta; // Return the 'pasta' color
+      case Category.salad:
+        return AppColors.salad; // Return the 'salad' color
+      case Category.dessert:
+        return AppColors.dessert; // Return the 'dessert' color
+      default:
+        return Colors.grey; // Default color if no category is selected
+    }
   }
 }
